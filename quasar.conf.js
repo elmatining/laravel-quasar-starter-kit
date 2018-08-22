@@ -1,9 +1,15 @@
 // Configuration for your app
+const webpack = require('webpack')
+const path = require('path')
+
+const envparser = require('./src/config/envparser')
 
 module.exports = function (ctx) {
   return {
     // app plugins (/src/plugins)
     plugins: [
+      'axios',
+      'vuelidate'
     ],
     css: [
       'app.styl'
@@ -16,15 +22,10 @@ module.exports = function (ctx) {
       // 'fontawesome'
     ],
     supportIE: false,
-    vendor: {
-      add: [],
-      remove: []
-    },
     build: {
-      htmlFilename: 'index.html',
-      distDir: 'public',
       scopeHoisting: true,
       vueRouterMode: 'history',
+      env: envparser(),
       // gzip: true,
       // analyze: true,
       // extractCSS: false,
@@ -40,51 +41,77 @@ module.exports = function (ctx) {
     },
     devServer: {
       // https: true,
-      // port: 8080,
-      open: true, // opens browser window automatically
+      port: 8002,
+      open: false, // opens browser window automatically
       proxy: {
-        '/api': 'http://localhost:8000',
-        '/storage': 'http://localhost:8000',
+        '/api': 'http://localhost:8001',
+        '/storage': 'http://localhost:8001',
       },
       historyApiFallback: true
     },
     // framework: 'all' --- includes everything; for dev only!
     framework: {
       components: [
-        'QLayout',
-        'QLayoutHeader',
-        'QLayoutDrawer',
-        'QPageContainer',
-        'QPage',
-        'QToolbar',
-        'QToolbarTitle',
-        'QBtn',
-        'QIcon',
-        'QList',
-        'QListHeader',
-        'QItem',
-        'QItemMain',
-        'QItemSide'
+          'QLayout',
+          'QLayoutHeader',
+          'QLayoutDrawer',
+          'QPageContainer',
+          'QPage',
+          'QToolbar',
+          'QToolbarTitle',
+          'QBtn',
+          'QIcon',
+          'QList',
+          'QListHeader',
+          'QItem',
+          'QItemMain',
+          'QItemSide',
+          'QItemTile',
+          'QItemSeparator',
+          'QScrollArea',
+          'QPageSticky',
+          'QTooltip',
+          'QStepper',
+          'QStep',
+          'QStepperNavigation',
+          'QCard',
+          'QCardTitle',
+          'QCardSeparator',
+          'QCardMain',
+          'QChip',
+          'QInput',
+          'QField',
+          'QSelect',
+          'QTable',
+          'QTr',
+          'QTd',
+          'QSearch',
+          'QInnerLoading',
+          'QCarousel',
+          'QCarouselSlide'
       ],
       directives: [
         'Ripple'
       ],
       // Quasar plugins
       plugins: [
-        'Notify'
+        'Notify',
+        'Screen'
       ]
     },
     // animations: 'all' --- includes all animations
-    animations: [
-    ],
+    animations: [],
+    ssr: {
+        pwa: false
+    },
     pwa: {
-      cacheExt: 'js,html,css,ttf,eot,otf,woff,woff2,json,svg,gif,jpg,jpeg,png,wav,ogg,webm,flac,aac,mp4,mp3',
-      navigateFallback: '/index.html',
+      // workboxPluginMode: 'InjectManifest',
+      // workboxOptions: {},
       manifest: {
-        name: 'Quasar App',
-        short_name: 'Quasar-PWA',
-        start_url: "/",
-        description: 'Best PWA App in town!',
+        // name: 'Quasar App',
+        // short_name: 'Quasar-PWA',
+        // description: 'Best PWA App in town!',
+        // start_url: "/",
         display: 'standalone',
         orientation: 'portrait',
         background_color: '#ffffff',
@@ -135,9 +162,6 @@ module.exports = function (ctx) {
         // Window only
         // win32metadata: { ... }
       }
-    },
-
-    // leave this here for Quasar CLI
-    starterKit: '1.0.2'
+    }
   }
 }
