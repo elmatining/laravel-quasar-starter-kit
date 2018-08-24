@@ -22,3 +22,7 @@ Route::get('/test', function () {
     'data' => 'Test api response'
   ]);
 });
+
+Route::get('/auth', 'Web\AuthController@isAuthenticated');
+
+Route::get('/auth/logout', 'Web\AuthController@logout');

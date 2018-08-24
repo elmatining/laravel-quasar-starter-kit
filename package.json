@@ -1,10 +1,10 @@
 {
-  "name": "lara_quasar",
+  "name": "gaztronaut_crm",
   "version": "1.0.0",
-  "description": "A Quasar Framework app",
-  "productName": "Quasar App",
-  "cordovaId": "org.cordova.quasar.app",
-  "author": "Your Author",
+  "description": "gaztronaut crm system",
+  "productName": "gaZtronaut ZRM",
+  "cordovaId": "org.cordova.zrm.app",
+  "author": "Nebde",
   "private": true,
   "scripts": {
     "lint": "eslint --ext .js,.vue src",

@@ -11,7 +11,10 @@
 |
 */
 
+Route::get('/auth/social/{social}', 'Web\AuthController@redirectToSocial');
+Route::get('/auth/{social}/callback', 'Web\AuthController@handleSocialCallback');
+
 // Redirect all to the front-end router
 Route::get('/{pattern?}', function() {
-    return view('welcome');
+    return view('app');
 })->where('pattern', '[\/\w\.-]*');

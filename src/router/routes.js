@@ -5,10 +5,6 @@ const routes = [
   {
     path: '/',
     component: () => import('pages/landing')
-    // component: () => import('layouts/crm.vue'),
-    // children: [
-    //   { path: '', component: () => import('pages/Index.vue') }
-    // ]
   }
 ]
 

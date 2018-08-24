@@ -11,17 +11,17 @@
         </div>
         <br>
         <q-btn
-                color="lime-9"
-                to="/crm"
+                color="light-blue-8"
                 class="full-width"
-                icon="widgets"
+                type="a"
+                href="/api/auth/social/facebook"
                 no-ripple
                 no-caps
-                label="gaZtronaut CRM"
+                label="Login with Facebook"
         />
 
         <q-btn
-                color="blue-grey-8"
+                color="lime-9"
                 class="full-width"
                 type="a"
                 href="https://gaztronaut.com"
@@ -31,6 +31,16 @@
                 no-caps
                 label="gaZtronaut.com"
         />
+
+        <q-btn :loading="loading" :color="color" @click="isAuth">
+          make an api request
+        </q-btn>
+
+        <div>
+          <code>
+            {{response}}
+          </code>
+        </div>
       </div>
     </div>
     <a class="ribbon" :title="`CRM v1.0 in ${env()}`">&nbsp;</a>
@@ -38,16 +48,55 @@
 </template>
 
 <script>
+require('../assets/fbSdk')
 import { openURL } from 'quasar'
+import { axiosInstance } from 'plugins/axios'
 
 export default {
   name: 'PageIndex',
+  data () {
+    return {
+      color: 'primary',
+      response: '',
+      loading: false
+    }
+  },
   methods: {
     launch () {
       openURL('http://quasar-framework.org')
     },
     env () {
       return `${process.env.NODE_ENV}`
+    },
+    async isAuthenticated () {
+      let response
+      let color = 'negative'
+      this.loading = true
+      try {
+        response = ''
+        let req = await fetch('/api/api/auth')
+        if (!req.ok) throw new Error('error request')
+        let {data} = await req.json()
+        response = data
+        color = 'positive'
+      } catch (err) {
+        console.log(err)
+        response = err.message
+      }
+      setTimeout(() => {
+        this.response = response
+        this.color = color
+        this.loading = false
+      }, 700)
+    },
+    isAuth () {
+      return axiosInstance.get('/auth')
+        .then((response) => {
+          console.log(response.data)
+        })
+        .catch((response) => {
+          console.log(response.data)
+        })
     }
   }
 }
