@@ -4,7 +4,7 @@ import LayoutCrm from 'layouts/crm'
 const routes = [
   {
     path: '/',
-    component: () => import('pages/landing')
+    component: () => import('pages/index')
   }
 ]
 
