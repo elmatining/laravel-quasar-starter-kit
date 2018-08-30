@@ -43,6 +43,7 @@ import { axiosInstance } from 'plugins/axios'
 
 export default {
   name: 'PageIndex',
+
   data () {
     return {
       color: 'primary',
@@ -67,46 +68,28 @@ export default {
         }
       })
     },
-    async isAuthenticated () {
-      let response
-      let color = 'negative'
-      this.loading = true
-      try {
-        response = ''
-        let req = await fetch('/api/api/auth')
-        if (!req.ok) throw new Error('error request')
-        let {data} = await req.json()
-        response = data
-        color = 'positive'
-      } catch (err) {
-        console.log(err)
-        response = err.message
-      }
-      setTimeout(() => {
-        this.response = response
-        this.color = color
-        this.loading = false
-      }, 700)
-    },
     loginSocial (social, token) {
       this.loading = true
       axiosInstance.defaults.headers.common['X-Authorization'] = token
       return axiosInstance.get(`/auth/login/social/${social}`)
         .then((response) => {
-          this.authUser(response.headers.authorization)
+          window.localStorage.setItem('token', JSON.stringify(response.headers.authorization))
+          this.authUser()
         })
     },
-    authUser (token) {
+    authUser () {
+      var token = JSON.parse(window.localStorage.getItem('token'))
       axiosInstance.defaults.headers.common['Authorization'] = token
       return axiosInstance.get('/auth/user')
         .then((response) => {
-          if (response.data.user) {
-            this.$store.commit('auth/setUser', response.data.user)
+          if (response.data) {
+            window.localStorage.setItem('user', JSON.stringify(response.data))
+            this.$store.commit('auth/setUser', response.data)
             this.$router.push('/crm')
           }
         })
         .catch(() => {
-          this.$store.commit('crm/updateAuthUser', {})
+          this.$store.commit('auth/setUser', {})
         })
     }
   }

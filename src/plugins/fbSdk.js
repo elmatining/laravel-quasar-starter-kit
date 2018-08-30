@@ -16,7 +16,6 @@ vueFb.install = function install (Vue, options) {
     FB.AppEvents.logPageView()
     Vue.FB = FB
     Vue.prototype.$fb = FB
-    console.log(options)
     window.dispatchEvent(new Event('fb-sdk-ready'))
   }
   Vue.FB = undefined

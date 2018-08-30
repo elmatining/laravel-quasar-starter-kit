@@ -1,5 +1,6 @@
 <?php namespace App\Http\Controllers\Web;
 
+use App\Http\Resources\User\AuthenticatedUserResource;
 use App\Services\SocialAccountService;
 use App\Http\Controllers\Controller;
 use Carbon\Carbon;
@@ -45,6 +46,8 @@ class AuthController extends Controller
 
     public function getAuthenticated(Request $request)
     {
-        return response()->json(['user' => $request->user()->load('profile')]);
+        AuthenticatedUserResource::withoutWrapping();
+        
+        return new AuthenticatedUserResource($request->user()->load('profile'));
     }
 }

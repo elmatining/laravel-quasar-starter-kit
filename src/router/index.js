@@ -9,6 +9,17 @@ Vue.use(VueRouter)
  * If not building with SSR mode, you can
  * directly export the Router instantiation
  */
+function authCheck () {
+  return authUser() && authToken()
+}
+
+function authUser () {
+  return JSON.parse(window.localStorage.getItem('user'))
+}
+
+function authToken () {
+  return JSON.parse(window.localStorage.getItem('token'))
+}
 
 export default function ({ store }) {
   const Router = new VueRouter({
@@ -22,9 +33,16 @@ export default function ({ store }) {
   })
 
   Router.beforeEach((to, from, next) => {
-    if (to.meta) {
+    if (authCheck() && to.path === '/') {
+      next({path: '/crm'})
+    } else if (to.meta.requiresAuth) {
+      if (!authUser() || !authToken()) {
+        next({path: '/'})
+      }
+    } else {
       store.commit('crm/updatePageMeta', to.meta)
     }
+
     next()
   })
 

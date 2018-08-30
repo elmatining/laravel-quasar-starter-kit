@@ -3,9 +3,8 @@ export const setUser = (state, user) => {
     id: '',
     name: '',
     email: '',
-    username: '',
-    created_at: '',
-    profile: {},
+    avatar: '',
+    provider: '',
     ...user
   }
 }

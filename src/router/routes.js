@@ -26,7 +26,8 @@ const crm = {
         title: 'gaZtronaut CRM',
         hash: '/crm',
         icon: 'widgets',
-        backRoute: '/'
+        backRoute: '/',
+        requiresAuth: true
       },
       component: () => import('pages/crm/dashboard')
     },

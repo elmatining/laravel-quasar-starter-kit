@@ -38,7 +38,7 @@
       <q-scroll-area style="width: 100%; height: 100%;"
                      :class="$q.theme === 'mat' ? 'bg-grey-3' : null">
         <div class="row flex-center bg-white" style="height: 70px">
-          <img :src="user.profile.avatar" class="q-item-avatar" alt="">
+          <img :src="user.avatar" class="q-item-avatar" alt="">
           <div class="caption q-ml-md">
             <span class="text-weight-bolder">gaZtronaut CRM</span> v1.0
             <!--<div class="caption" style="line-height: 18px" v-if="env() === 'development'">{{env()}} environment</div>-->
@@ -128,6 +128,8 @@ export default {
   },
   mounted () {
     this.leftDrawerOpen = this.$q.platform.is.desktop
+    var authUser = JSON.parse(window.localStorage.getItem('user'))
+    this.$store.commit('auth/setUser', authUser)
   }
 }
 </script>
