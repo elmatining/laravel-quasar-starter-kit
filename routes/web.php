@@ -10,11 +10,7 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
-
-Route::get('/auth/social/{social}', 'Web\AuthController@redirectToSocial');
-Route::get('/auth/{social}/callback', 'Web\AuthController@handleSocialCallback');
-
 // Redirect all to the front-end router
-Route::get('/{pattern?}', function() {
+Route::get('/{pattern?}', function () {
     return view('app');
 })->where('pattern', '[\/\w\.-]*');

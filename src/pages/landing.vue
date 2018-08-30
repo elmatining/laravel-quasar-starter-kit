@@ -11,10 +11,11 @@
         </div>
         <br>
         <q-btn
-                color="light-blue-8"
+                color="light-blue-10"
                 class="full-width"
                 type="a"
-                href="/api/auth/social/facebook"
+                :loading="loading"
+                @click="fbLogin"
                 no-ripple
                 no-caps
                 label="Login with Facebook"
@@ -31,16 +32,6 @@
                 no-caps
                 label="gaZtronaut.com"
         />
-
-        <q-btn :loading="loading" :color="color" @click="isAuth">
-          make an api request
-        </q-btn>
-
-        <div>
-          <code>
-            {{response}}
-          </code>
-        </div>
       </div>
     </div>
     <a class="ribbon" :title="`CRM v1.0 in ${env()}`">&nbsp;</a>
@@ -48,8 +39,6 @@
 </template>
 
 <script>
-require('../assets/fbSdk')
-import { openURL } from 'quasar'
 import { axiosInstance } from 'plugins/axios'
 
 export default {
@@ -61,12 +50,22 @@ export default {
       loading: false
     }
   },
+
   methods: {
-    launch () {
-      openURL('http://quasar-framework.org')
-    },
     env () {
       return `${process.env.NODE_ENV}`
+    },
+    fbLogin () {
+      this.$fb.getLoginStatus((response) => {
+        if (response.status === 'connected') {
+          console.log(response.authResponse.accessToken)
+          this.loginSocial('facebook', response.authResponse.accessToken)
+        } else {
+          this.$fb.login((response) => {
+            this.loginSocial('facebook', response.authResponse.accessToken)
+          })
+        }
+      })
     },
     async isAuthenticated () {
       let response
@@ -89,13 +88,26 @@ export default {
         this.loading = false
       }, 700)
     },
-    isAuth () {
+    loginSocial (social, token) {
+      console.log(token)
+      this.loading = true
+      axiosInstance.defaults.headers.common['X-Authorization'] = token
+      return axiosInstance.get(`/auth/login/social/${social}`)
+        .then((response) => {
+          this.getAuthenticatedUser(response.headers.authorization)
+        })
+    },
+    getAuthenticatedUser (token) {
+      axiosInstance.defaults.headers.common['Authorization'] = token
       return axiosInstance.get('/auth')
         .then((response) => {
-          console.log(response.data)
+          if (response.data.user) {
+            this.$store.commit('auth/setUser', response.data.user)
+            this.$router.push('/crm')
+          }
         })
-        .catch((response) => {
-          console.log(response.data)
+        .catch(() => {
+          this.$store.commit('crm/updateAuthUser', {})
         })
     }
   }

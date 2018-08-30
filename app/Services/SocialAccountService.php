@@ -2,12 +2,14 @@
 
 use App\Models\SocialAccount;
 use App\Models\User;
+use Laravel\Socialite\Facades\Socialite;
 
 class SocialAccountService
 {
-    public function setOrGetUser($provider)
+    public function setOrGetUser($social, $token)
     {
-        $providerUser = $provider->stateless()->user();
+        $provider = Socialite::driver($social);
+        $providerUser = $provider->userFromToken($token);
         $providerName = class_basename($provider);
         $providerId = $providerUser->getId();
         $providerEmail = $providerUser->getEmail();

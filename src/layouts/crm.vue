@@ -38,12 +38,11 @@
       <q-scroll-area style="width: 100%; height: 100%;"
                      :class="$q.theme === 'mat' ? 'bg-grey-3' : null">
         <div class="row flex-center bg-white" style="height: 70px">
-          <q-icon name="widgets"
-                  class="q-display-1"
-          />
+          <img :src="user.profile.avatar" class="q-item-avatar" alt="">
           <div class="caption q-ml-md">
             <span class="text-weight-bolder">gaZtronaut CRM</span> v1.0
-            <div class="caption" style="line-height: 18px" v-if="env() === 'development'">{{env()}} environment</div>
+            <!--<div class="caption" style="line-height: 18px" v-if="env() === 'development'">{{env()}} environment</div>-->
+            <div class="caption" style="line-height: 18px">{{user.name}}</div>
           </div>
         </div>
         <q-list no-border>
@@ -113,9 +112,8 @@ export default {
     }
   },
   computed: {
-    ...mapState('crm', [
-      'pageMeta'
-    ])
+    ...mapState('crm', ['pageMeta']),
+    ...mapState('auth', ['user'])
   },
   methods: {
     openURL,

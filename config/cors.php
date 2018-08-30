@@ -36,7 +36,8 @@ return [
             'Origin',
             'Authorization',
             'X-Csrf-Token',
-            'X-Requested-With'
+            'X-Requested-With',
+            'X-Authorization'
         ],
 
         'expose_headers' => [
@@ -46,6 +47,7 @@ return [
             'Expires',
             'Last-Modified',
             'Pragma',
+            'Authorization'
         ],
 
         'forbidden_response' => [

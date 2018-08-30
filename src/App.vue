@@ -14,6 +14,7 @@
 <script>
 export default {
   name: 'App',
+
   methods: {
     resetScroll (el, done) {
       document.documentElement.scrollTop = 0

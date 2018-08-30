@@ -9,3 +9,15 @@ export const updatePageMeta = (state, meta) => {
     ...meta
   }
 }
+
+export const updateAuthUser = (state, user) => {
+  state.authUser = {
+    id: '',
+    name: '',
+    email: '',
+    username: '',
+    created_at: '',
+    profile: {},
+    ...user
+  }
+}

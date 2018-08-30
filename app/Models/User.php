@@ -1,5 +1,6 @@
 <?php namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Laravel\Passport\HasApiTokens;
@@ -29,5 +30,18 @@ class User extends Authenticatable
     public function profile()
     {
         return $this->hasOne(SocialAccount::class);
+    }
+
+    public function withValidToken()
+    {
+        $token = $this->tokens()
+            ->whereName('Laravel Password Grant Client')
+            ->first();
+
+        if ($token && $token->expires_at >= Carbon::now()) {
+            return $token;
+        }
+
+        return null;
     }
 }
