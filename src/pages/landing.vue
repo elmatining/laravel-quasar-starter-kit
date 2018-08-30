@@ -89,17 +89,16 @@ export default {
       }, 700)
     },
     loginSocial (social, token) {
-      console.log(token)
       this.loading = true
       axiosInstance.defaults.headers.common['X-Authorization'] = token
       return axiosInstance.get(`/auth/login/social/${social}`)
         .then((response) => {
-          this.getAuthenticatedUser(response.headers.authorization)
+          this.authUser(response.headers.authorization)
         })
     },
-    getAuthenticatedUser (token) {
+    authUser (token) {
       axiosInstance.defaults.headers.common['Authorization'] = token
-      return axiosInstance.get('/auth')
+      return axiosInstance.get('/auth/user')
         .then((response) => {
           if (response.data.user) {
             this.$store.commit('auth/setUser', response.data.user)
