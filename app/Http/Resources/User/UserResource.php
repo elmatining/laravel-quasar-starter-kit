@@ -21,6 +21,7 @@ class UserResource extends JsonResource
             'attributes' => [
                 'name'  => $this->name,
                 'email' => $this->email,
+                'roles' => $this->roles->pluck('name')->toArray()
             ],
             'relationships' => new UserRelationshipResource($this),
             'links' => [

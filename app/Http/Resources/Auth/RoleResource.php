@@ -16,8 +16,10 @@ class RoleResource extends JsonResource
             'type' => 'role',
             'id' => (string)$this->id,
             'attributes' => [
-                'name' => $this->name
-            ]
+                'name' => $this->name,
+                'no_of_users' =>$this->users()->count()
+            ],
+            'relationships' => new RoleRelationshipResource($this),
         ];
     }
 }

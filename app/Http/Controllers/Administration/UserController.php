@@ -10,7 +10,7 @@ use Illuminate\Http\Request;
 class UserController extends Controller
 {
     use Authorizable;
-    
+
     /**
      * Display a listing of the resource.
      *
@@ -18,7 +18,16 @@ class UserController extends Controller
      */
     public function index()
     {
-        return new UsersResource(User::with(['profile'])->latest()->paginate());
+        $query = User::with(['profile', 'roles']);
+
+        if ( $filter = request()->input('filter', null) ) {
+            $query->whereRaw("similarity(name, '{$filter}') > 0.10")
+                  ->orderByRaw("similarity(name, '{$filter}') desc");
+        } else {
+            $query->orderBy('name');
+        }
+
+        return new UsersResource($query->paginate());
     }
 
     /**
@@ -37,7 +46,7 @@ class UserController extends Controller
      * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store( Request $request )
     {
         //
     }
@@ -48,7 +57,7 @@ class UserController extends Controller
      * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public function show(User $user)
+    public function show( User $user )
     {
         UserResource::withoutWrapping();
 
@@ -61,7 +70,7 @@ class UserController extends Controller
      * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(User $id)
+    public function edit( User $id )
     {
         //
     }
@@ -73,7 +82,7 @@ class UserController extends Controller
      * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, User $id)
+    public function update( Request $request, User $id )
     {
         //
     }
@@ -84,7 +93,7 @@ class UserController extends Controller
      * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(User $id)
+    public function destroy( User $id )
     {
         //
     }

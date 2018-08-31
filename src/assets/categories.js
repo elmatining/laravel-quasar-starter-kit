@@ -34,7 +34,7 @@ export default [
     ]
   },
   {
-    title: 'Users & Access Control',
+    title: 'Administration',
     icon: 'vpn_lock',
     hash: 'uac',
     features: [
@@ -47,11 +47,6 @@ export default [
         title: 'Users',
         icon: 'person',
         hash: 'users'
-      },
-      {
-        title: 'User Group',
-        icon: 'group',
-        hash: 'user_groups'
       }
     ]
   }

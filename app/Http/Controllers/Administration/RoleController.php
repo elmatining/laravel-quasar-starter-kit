@@ -17,7 +17,16 @@ class RoleController extends Controller
      */
     public function index()
     {
-        return new RolesResource(Role::paginate());
+        $query = Role::with(['users', 'permissions']);
+
+        if ( $filter = request()->input('filter', null) ) {
+            $query->whereRaw("similarity(name, '{$filter}') > 0.10")
+                  ->orderByRaw("similarity(name, '{$filter}') desc");
+        } else {
+            $query->orderBy('name');
+        }
+
+        return new RolesResource($query->paginate());
     }
 
     /**
