@@ -160,6 +160,10 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
 
+        /*
+         * Application Plugins Service Providers...
+         */
+        App\Plugins\Administration\AdministrationServiceProvider::class,
     ],
 
     /*

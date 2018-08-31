@@ -43,4 +43,7 @@ Route::group(['middleware' => 'auth:api', 'namespace' => 'Administration'], func
             'as'   => 'users.profile'
         ]
     );
+
+    Route::apiResource('roles', 'RoleController');
+    Route::apiResource('permissions', 'PermissionController')->only(['index']);
 });

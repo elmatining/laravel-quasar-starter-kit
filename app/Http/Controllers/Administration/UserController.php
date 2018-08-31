@@ -1,5 +1,6 @@
 <?php namespace App\Http\Controllers\Administration;
 
+use App\Http\Controllers\Authorizable;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\User\UserResource;
 use App\Http\Resources\User\UsersResource;
@@ -8,6 +9,8 @@ use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
+    use Authorizable;
+    
     /**
      * Display a listing of the resource.
      *

@@ -1,4 +1,4 @@
-<?php namespace App\Models;
+<?php namespace App\Plugins\Administration\Models;
 
 use Spatie\Permission\Models\Permission as SpatiePermission;
 
